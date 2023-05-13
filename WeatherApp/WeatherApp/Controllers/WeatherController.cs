@@ -25,10 +25,11 @@ namespace WeatherApp.Controllers
         /// <returns></returns>
 
         [HttpGet("GetCoolestArea")]
-        public IActionResult GetCoolestArea(int take=10)
+        public IActionResult GetCoolestArea(int? take)
         {
             try
             {
+                int getArea = Convert.ToInt32(take == null ? 10 : take);
                 List<District> districts = UtilityManager.GetDistricts();
                 foreach (var item in districts)
                 {
@@ -37,7 +38,7 @@ namespace WeatherApp.Controllers
                     item.AvegTemp = calculateTemperature.AvegTemp;
                 }
 
-                return Ok(districts.OrderBy(e => e.AvegTemp).Take(take));
+                return Ok(districts.OrderBy(e => e.AvegTemp).Take(getArea));
             }
             catch (Exception ex)
             {
@@ -55,11 +56,15 @@ namespace WeatherApp.Controllers
         {
             try
             {
+                if (query.TravelDate==null)
+                {
+                    throw new Exception("Please Enter Formative Travel Date.");
+                }
                 List<District> districts = UtilityManager.GetDistricts();
                 District district = districts.Where(e => e.name == query.FriendsLocation).FirstOrDefault();
                 District destinationDis = districts.Where(e => e.name == query.FriendsDestination).FirstOrDefault();
-                double? locationTemperature = UtilityManager.GetTemperaturesForTravel(Convert.ToDouble(district.lat), Convert.ToDouble(district.Long), query.TravelDate);
-                double? destinationTemperature = UtilityManager.GetTemperaturesForTravel(Convert.ToDouble(destinationDis.lat), Convert.ToDouble(destinationDis.Long), query.TravelDate);
+                double? locationTemperature = UtilityManager.GetTemperaturesForTravel(Convert.ToDouble(district.lat), Convert.ToDouble(district.Long), Convert.ToDateTime(query.TravelDate));
+                double? destinationTemperature = UtilityManager.GetTemperaturesForTravel(Convert.ToDouble(destinationDis.lat), Convert.ToDouble(destinationDis.Long), Convert.ToDateTime(query.TravelDate));
 
                 if (locationTemperature > destinationTemperature)
                 {
