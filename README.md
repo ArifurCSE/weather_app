@@ -8,3 +8,32 @@ Secondly, you may show "GetTravelDestinationTemperature" API you take your frien
 
 Install WeatherApp with Visual Studio 2022 Software.
 Visual Studio 2022 is the most comprehensive Integrated Development Environment (IDE) for .NET and C++ developers on Windows for building web, cloud, desktop, mobile apps, services and games.
+
+## Weather App Build & Run
+using Visual Studio 2022 software First Build press the (Ctrl+Shift+B) and run weather app press the (F5).Then you will be shown GUI which is the Swagger UI as like Postman. Firstly, you expand your REST API and press the Try it Out(Right side) Button.After that you may show Execute buton.
+
+## API Reference
+
+#### Get By default 10 coolest Area
+
+```http
+  GET /api/Weather/GetCoolestArea
+```
+
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `take` | `int` | Not mandatory |
+
+#### Get Travel Destination Area
+
+```http
+  GET /api/Weather/GetTravelDestinationTemperature
+```
+
+| Parameter | Type     | Description                       |
+| :-------- | :------- | :-------------------------------- |
+| `FriendsLocation`      | `string` | **Required**. you may select from dropdown |
+| `FriendsDestination`      | `string` | **Required**. you may select from dropdown |
+| `TravelDate`      | `string` | **Required**. you may input your Travel Date Exact format (e.g. "yyyy-MM-dd") |
+
+
